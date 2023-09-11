@@ -1,14 +1,18 @@
 package Cards;
 
 public class Card {
-    private final Enum<Suit> suit;
+    private final Suit suit;
     private final String faceValue;
     private final Integer rank;
 
-    public Card(Enum<Suit> suit, String faceValue, Integer rank) {
+    public Card(Suit suit, String faceValue) {
         this.suit = suit;
         this.faceValue = faceValue;
-        this.rank = rank;
+        this.rank = getRankFromFaceValue(faceValue);
+    }
+    @Override
+    public String toString() {
+        return getAsciiCodeForSuit(this.suit) + this.faceValue;
     }
     private Integer getRankFromFaceValue(String faceValue) {
         return switch (faceValue) {
@@ -26,6 +30,14 @@ public class Card {
             case "Q" -> 11;
             case "K" -> 12;
             default -> throw new IllegalStateException("Unexpected value: " + faceValue);
+        };
+    }
+    private Character getAsciiCodeForSuit(Suit suit) {
+        return switch (suit) {
+            case Hearts -> '♥';
+            case Diamonds -> '♦';
+            case Clubs -> '♣';
+            case Spades -> '♠';
         };
     }
 }

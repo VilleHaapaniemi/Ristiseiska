@@ -1,8 +1,11 @@
 import Cards.Card;
+import Cards.Deck;
 import Cards.Suit;
 
 public class Main {
     public static void main(String[] args) {
-        var vard = new Card(Suit.Hearts, "J", 9);
+        var card = new Card(Suit.Hearts, "6");
+        var deck = new Deck();
+        deck.generateBasicDeck();
     }
 }

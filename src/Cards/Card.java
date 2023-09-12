@@ -10,6 +10,19 @@ public class Card implements Comparable<Card> {
         this.faceValue = faceValue;
         this.rank = getRankFromFaceValue(faceValue);
     }
+
+    public Suit getSuit() {
+        return suit;
+    }
+
+    public String getFaceValue() {
+        return faceValue;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
     @Override
     public String toString() {
         return getAsciiCodeForSuit(this.suit) + this.faceValue;

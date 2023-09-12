@@ -15,6 +15,9 @@ public class Main {
         player.addCardToHand(new Card(Suit.Clubs, "6"));
         player.addCardToHand(new Card(Suit.Clubs, "9"));
         player.addCardToHand(new Card(Suit.Clubs, "A"));
+        player.addCardToHand(new Card(Suit.Clubs, "7"));
+        player.addCardToHand(new Card(Suit.Clubs, "5"));
+        player.addCardToHand(new Card(Suit.Spades, "7"));
         player.addCardToHand(new Card(Suit.Clubs, "2"));
     }
 }

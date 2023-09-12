@@ -1,6 +1,6 @@
 package Cards;
 
-public class Card {
+public class Card implements Comparable<Card> {
     private final Suit suit;
     private final String faceValue;
     private final Integer rank;
@@ -14,6 +14,7 @@ public class Card {
     public String toString() {
         return getAsciiCodeForSuit(this.suit) + this.faceValue;
     }
+
     private Integer getRankFromFaceValue(String faceValue) {
         return switch (faceValue) {
             case "A" -> 0;
@@ -39,5 +40,10 @@ public class Card {
             case Clubs -> '♣';
             case Spades -> '♠';
         };
+    }
+
+    @Override
+    public int compareTo(Card o) {
+        return this.rank - o.rank;
     }
 }

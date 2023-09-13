@@ -1,5 +1,7 @@
 package Cards;
 
+import java.util.Comparator;
+
 public class Card implements Comparable<Card> {
     private final Suit suit;
     private final String faceValue;
@@ -58,5 +60,9 @@ public class Card implements Comparable<Card> {
     @Override
     public int compareTo(Card o) {
         return this.rank - o.rank;
+    }
+    public static Comparator<Card> getPlayerHandComparator() {
+        return Comparator.comparing(Card::getSuit)
+                .thenComparingInt(Card::getRank);
     }
 }

@@ -1,6 +1,8 @@
 package Player;
 
 import Cards.Card;
+import Exceptions.CardNotFoundException;
+import Exceptions.DuplicateCardException;
 
 import java.util.*;
 
@@ -33,9 +35,15 @@ public class Player {
         this.hand = hand;
     }
     public void addCardToHand(Card card) {
-        this.hand.add(card);
+        boolean result = this.hand.add(card);
+        if (!result) {
+            throw new DuplicateCardException(card.toString());
+        }
     }
     public void removeCardFromHand(Card card) {
-        this.hand.remove(card);
+        boolean result = this.hand.remove(card);
+        if (!result) {
+            throw new CardNotFoundException(card.toString());
+        }
     }
 }

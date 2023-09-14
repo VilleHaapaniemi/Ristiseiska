@@ -1,5 +1,7 @@
 package Cards;
 
+import Util.TextColor;
+
 import java.util.Comparator;
 
 public class Card implements Comparable<Card> {
@@ -27,7 +29,10 @@ public class Card implements Comparable<Card> {
 
     @Override
     public String toString() {
-        return getAsciiCodeForSuit(this.suit) + this.faceValue;
+        if (this.suit.equals(Suit.Hearts) || this.suit.equals(Suit.Diamonds))
+            return TextColor.ANSI_RED + this.suit.getAsciiCode() + this.faceValue + TextColor.ANSI_RESET;
+        else
+            return TextColor.ANSI_MAGENTA + this.suit.getAsciiCode() + this.faceValue + TextColor.ANSI_RESET;
     }
 
     private Integer getRankFromFaceValue(String faceValue) {
@@ -48,20 +53,12 @@ public class Card implements Comparable<Card> {
             default -> throw new IllegalStateException("Unexpected value: " + faceValue);
         };
     }
-    private Character getAsciiCodeForSuit(Suit suit) {
-        return switch (suit) {
-            case Hearts -> '♥';
-            case Diamonds -> '♦';
-            case Clubs -> '♣';
-            case Spades -> '♠';
-        };
-    }
-
     @Override
     public int compareTo(Card o) {
         return this.rank - o.rank;
     }
     public static Comparator<Card> getPlayerHandComparator() {
+        // Player hand to display is ordered first by Suit and then by Rank
         return Comparator.comparing(Card::getSuit)
                 .thenComparingInt(Card::getRank);
     }

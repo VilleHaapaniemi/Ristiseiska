@@ -4,5 +4,11 @@ public enum Suit {
     Hearts,
     Diamonds,
     Clubs,
-    Spades
+    Spades;
+
+    private final Character[] suitAsciiCodes = {'♥', '♦', '♣', '♠'};
+
+    public Character getAsciiCode() {
+        return suitAsciiCodes[this.ordinal()];
+    }
 }

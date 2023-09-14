@@ -7,7 +7,6 @@ import java.util.Set;
 public class GameSelections {
     private GameSelections() {}
     private static int playerCount;
-    private static boolean gameFinished;
     private static Set<String> playerNames = new LinkedHashSet<>();
 
     public static int getPlayerCount() {
@@ -16,14 +15,6 @@ public class GameSelections {
 
     public static void setPlayerCount(int playerCount) {
         GameSelections.playerCount = playerCount;
-    }
-
-    public static boolean isGameFinished() {
-        return gameFinished;
-    }
-
-    public static void setGameFinished(boolean gameFinished) {
-        GameSelections.gameFinished = gameFinished;
     }
 
     public static Set<String> getPlayerNames() {

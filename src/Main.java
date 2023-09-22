@@ -11,7 +11,7 @@ public class Main {
         GameSelections.askPlayerCount();
         GameSelections.askPlayerNames();
 
-        Game game = new Game(GameSelections.getPlayerNames());
+        Game game = new Game(GameSelections.getPlayerNames()); // Constructor sets the players to the Game
         Deck drawingDeck = new Deck();
         drawingDeck.generateBasicDeck();
         drawingDeck.shuffleDeck();

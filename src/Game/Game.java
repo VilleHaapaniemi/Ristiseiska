@@ -34,8 +34,14 @@ public class Game {
         this.gameFinished = gameFinished;
     }
     public void drawHandsToPlayers(Deck drawingDeck) {
+        int i = 0;
+        int playersCount = players.size();
         for (Card card : drawingDeck.getDeck()) {
-            System.out.println(card);
+            if (i == playersCount)
+                i = 0;
+            players.get(i).addCardToHand(card);
+            i++;
         }
+        drawingDeck.getDeck().clear();
     }
 }

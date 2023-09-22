@@ -16,6 +16,8 @@ public class Main {
         drawingDeck.generateBasicDeck();
         drawingDeck.shuffleDeck();
         game.drawHandsToPlayers(drawingDeck);
+        game.resolveStartingPlayer();
+
 
         while (!game.isGameFinished()) {
             System.out.println(new Card(Suit.Hearts, "J"));

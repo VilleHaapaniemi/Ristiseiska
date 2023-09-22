@@ -2,6 +2,7 @@ package Game;
 
 import Cards.Card;
 import Cards.Deck;
+import Cards.Suit;
 import Player.Player;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Set;
 public class Game {
     private List<Player> players = new ArrayList<>();
     private boolean gameFinished;
+    private Player startingPlayer;
 
     public Game(Set<String> playerNames) {
         for (String name : playerNames) {
@@ -24,6 +26,14 @@ public class Game {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public Player getStartingPlayer() {
+        return startingPlayer;
+    }
+
+    public void setStartingPlayer(Player startingPlayer) {
+        this.startingPlayer = startingPlayer;
     }
 
     public boolean isGameFinished() {
@@ -43,5 +53,14 @@ public class Game {
             i++;
         }
         drawingDeck.getDeck().clear();
+    }
+    public void resolveStartingPlayer() {
+        Card clubs7 = new Card(Suit.Clubs, "7");
+        for (Player player : players) {
+            if (player.getHand().contains(clubs7))
+                startingPlayer = player;
+
+            break;
+        }
     }
 }

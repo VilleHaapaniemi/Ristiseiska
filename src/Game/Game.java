@@ -57,10 +57,10 @@ public class Game {
     public void resolveStartingPlayer() {
         Card clubs7 = new Card(Suit.Clubs, "7");
         for (Player player : players) {
-            if (player.getHand().contains(clubs7))
+            if (player.getHand().contains(clubs7)) {
                 startingPlayer = player;
-
-            break;
+                break;
+            }
         }
     }
 }

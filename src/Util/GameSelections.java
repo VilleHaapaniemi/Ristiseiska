@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class GameSelections {
+public final class GameSelections {
     private GameSelections() {}
     private static int playerCount;
     private static Set<String> playerNames = new LinkedHashSet<>();

@@ -9,41 +9,47 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Game {
-    private List<Player> players = new ArrayList<>();
-    private boolean gameFinished;
-    private Player startingPlayer;
+public final class Game {
+    private static List<Player> players = new ArrayList<>();
+    private static boolean gameFinished;
+    private static Player startingPlayer;
 
-    public Game(Set<String> playerNames) {
-        for (String name : playerNames) {
-            players.add(new Player(name));
-        }
-    }
+//    public Game(Set<String> playerNames) {
+//        for (String name : playerNames) {
+//            players.add(new Player(name));
+//        }
+//    }
+    private Game() {}
 
     public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public static void setPlayers(List<Player> playersVal) {
+        players = playersVal;
+    }
+    public static void setPlayers(Set<String> playerNames) {
+        for (String name : playerNames) {
+               players.add(new Player(name));
+        }
     }
 
-    public Player getStartingPlayer() {
+    public static Player getStartingPlayer() {
         return startingPlayer;
     }
 
-    public void setStartingPlayer(Player startingPlayer) {
-        this.startingPlayer = startingPlayer;
+    public static void setStartingPlayer(Player startingPlayerVal) {
+        startingPlayer = startingPlayerVal;
     }
 
-    public boolean isGameFinished() {
+    public static boolean isGameFinished() {
         return gameFinished;
     }
 
-    public void setGameFinished(boolean gameFinished) {
-        this.gameFinished = gameFinished;
+    public static void setGameFinished(boolean gameFinishedVal) {
+        gameFinished = gameFinishedVal;
     }
-    public void drawHandsToPlayers(Deck drawingDeck) {
+    public static void drawHandsToPlayers(Deck drawingDeck) {
         int i = 0;
         int playersCount = players.size();
         for (Card card : drawingDeck.getDeck()) {
@@ -54,7 +60,7 @@ public class Game {
         }
         drawingDeck.getDeck().clear();
     }
-    public void resolveStartingPlayer() {
+    public static void resolveStartingPlayer() {
         Card clubs7 = new Card(Suit.Clubs, "7");
         for (Player player : players) {
             if (player.getHand().contains(clubs7)) {

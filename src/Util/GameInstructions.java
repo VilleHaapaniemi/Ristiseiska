@@ -1,6 +1,6 @@
 package Util;
 
-public class GameInstructions {
+public final class GameInstructions {
     private GameInstructions() {}
 
     public static void start() {

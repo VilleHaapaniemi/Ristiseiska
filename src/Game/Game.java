@@ -12,13 +12,8 @@ import java.util.Set;
 public final class Game {
     private static List<Player> players = new ArrayList<>();
     private static boolean gameFinished;
-    private static Player startingPlayer;
+    private static Player currentTurnPlayer;
 
-//    public Game(Set<String> playerNames) {
-//        for (String name : playerNames) {
-//            players.add(new Player(name));
-//        }
-//    }
     private Game() {}
 
     public List<Player> getPlayers() {
@@ -34,12 +29,12 @@ public final class Game {
         }
     }
 
-    public static Player getStartingPlayer() {
-        return startingPlayer;
+    public static Player getCurrentTurnPlayer() {
+        return currentTurnPlayer;
     }
 
-    public static void setStartingPlayer(Player startingPlayerVal) {
-        startingPlayer = startingPlayerVal;
+    public static void setCurrentTurnPlayer(Player currentTurnPlayer) {
+        Game.currentTurnPlayer = currentTurnPlayer;
     }
 
     public static boolean isGameFinished() {
@@ -61,10 +56,10 @@ public final class Game {
         drawingDeck.getDeck().clear();
     }
     public static void resolveStartingPlayer() {
-        Card clubs7 = new Card(Suit.Clubs, "7");
+        Card clubs7 = new Card(Suit.CLUBS, "7");
         for (Player player : players) {
             if (player.getHand().contains(clubs7)) {
-                startingPlayer = player;
+                currentTurnPlayer = player;
                 break;
             }
         }

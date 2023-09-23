@@ -29,7 +29,7 @@ public class Card implements Comparable<Card> {
 
     @Override
     public String toString() {
-        if (this.suit.equals(Suit.Hearts) || this.suit.equals(Suit.Diamonds))
+        if (this.suit.equals(Suit.HEARTS) || this.suit.equals(Suit.DIAMONDS))
             return TextColor.ANSI_RED + this.suit.getAsciiCode() + this.faceValue + TextColor.ANSI_RESET;
         else
             return TextColor.ANSI_MAGENTA + this.suit.getAsciiCode() + this.faceValue + TextColor.ANSI_RESET;
@@ -37,19 +37,19 @@ public class Card implements Comparable<Card> {
 
     private Integer getRankFromFaceValue(String faceValue) {
         return switch (faceValue) {
-            case "A" -> 0;
-            case "2" -> 1;
-            case "3" -> 2;
-            case "4" -> 3;
-            case "5" -> 4;
-            case "6" -> 5;
-            case "7" -> 6;
-            case "8" -> 7;
-            case "9" -> 8;
-            case "10" -> 9;
-            case "J" -> 10;
-            case "Q" -> 11;
-            case "K" -> 12;
+            case "A" -> 1;
+            case "2" -> 2;
+            case "3" -> 3;
+            case "4" -> 4;
+            case "5" -> 5;
+            case "6" -> 6;
+            case "7" -> 7;
+            case "8" -> 8;
+            case "9" -> 9;
+            case "10" -> 10;
+            case "J" -> 11;
+            case "Q" -> 12;
+            case "K" -> 13;
             default -> throw new IllegalStateException("Unexpected value: " + faceValue);
         };
     }

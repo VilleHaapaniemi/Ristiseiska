@@ -1,10 +1,10 @@
 package Cards;
 
 public enum Suit {
-    Hearts,
-    Diamonds,
-    Clubs,
-    Spades;
+    HEARTS,
+    DIAMONDS,
+    CLUBS,
+    SPADES;
 
     private final Character[] suitAsciiCodes = {'♥', '♦', '♣', '♠'};
 

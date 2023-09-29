@@ -2,6 +2,7 @@ import Cards.Card;
 import Cards.Deck;
 import Cards.Suit;
 import Game.Game;
+import Game.Table;
 import Util.GameInstructions;
 import Util.GameSelections;
 
@@ -25,9 +26,10 @@ public class Main {
         // Remove starting Card from Player hand. Add Card to table
         Card club7 = new Card(Suit.CLUBS, "7");
         Game.getCurrentTurnPlayer().removeCardFromHand(club7);
+        Table.addCardToTable(club7);
 
         while (!Game.isGameFinished()) {
-
+            Table.displayTableCards();
 
             Game.setGameFinished(true);
         }

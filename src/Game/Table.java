@@ -3,25 +3,21 @@ package Game;
 import Cards.Card;
 import Cards.Suit;
 
-import java.util.HashMap;
-
 public final class Table {
     private static Card highestHeart;
     private static Card lowestHeart;
+    private static Card heart7;
     private static Card highestDiamond;
     private static Card lowestDiamond;
+    private static Card diamond7;
     private static Card highestClub;
     private static Card lowestClub;
+    private static Card club7;
     private static Card highestSpade;
     private static Card lowestSpade;
-    private static HashMap<Suit, Card[]> tableCardMap = new HashMap<>();
+    private static Card spade7;
 
-    private Table() {
-        tableCardMap.put(Suit.HEARTS, null);
-        tableCardMap.put(Suit.DIAMONDS, null);
-        tableCardMap.put(Suit.CLUBS, null);
-        tableCardMap.put(Suit.SPADES, null);
-    }
+    private Table() {}
 
     public static Card getHighestHeart() {
         return highestHeart;
@@ -86,34 +82,110 @@ public final class Table {
     public static void setLowestSpade(Card lowestSpade) {
         Table.lowestSpade = lowestSpade;
     }
+
+    public static Card getHeart7() {
+        return heart7;
+    }
+
+    public static void setHeart7(Card heart7) {
+        Table.heart7 = heart7;
+    }
+
+    public static Card getDiamond7() {
+        return diamond7;
+    }
+
+    public static void setDiamond7(Card diamond7) {
+        Table.diamond7 = diamond7;
+    }
+
+    public static Card getClub7() {
+        return club7;
+    }
+
+    public static void setClub7(Card club7) {
+        Table.club7 = club7;
+    }
+
+    public static Card getSpade7() {
+        return spade7;
+    }
+
+    public static void setSpade7(Card spade7) {
+        Table.spade7 = spade7;
+    }
+
     public static void addCardToTable(Card card) {
         InsertCardStatus insertResult = checkInsertion(card);
 
-        switch (card.getSuit()) {
-            case HEARTS:
-                break;
-            case DIAMONDS:
-                break;
-            case CLUBS:
-                break;
-            case SPADES:
-                break;
+        if (insertResult == InsertCardStatus.ILLEGAL) {
+            System.out.println("Illegal");
+            //Todo: Exception
+        }
+
+        Suit addedCardSuit = card.getSuit();
+        if (insertResult == InsertCardStatus.HIGHEST) {
+            switch (addedCardSuit) {
+                case HEARTS:
+                    highestHeart = card;
+                    break;
+                case DIAMONDS:
+                    highestDiamond = card;
+                    break;
+                case CLUBS:
+                    highestClub = card;
+                    break;
+                case SPADES:
+                    highestSpade = card;
+                    break;
+            }
+        } else if (insertResult == InsertCardStatus.LOWEST) {
+            switch (addedCardSuit) {
+                case HEARTS:
+                    lowestHeart = card;
+                    break;
+                case DIAMONDS:
+                    lowestDiamond = card;
+                    break;
+                case CLUBS:
+                    lowestClub = card;
+                    break;
+                case SPADES:
+                    lowestSpade = card;
+                    break;
+            }
+        } else if (insertResult == InsertCardStatus.SEVEN) {
+            switch (addedCardSuit) {
+                case HEARTS:
+                    heart7 = card;
+                    break;
+                case DIAMONDS:
+                    diamond7 = card;
+                    break;
+                case CLUBS:
+                    club7 = card;
+                    break;
+                case SPADES:
+                    spade7 = card;
+                    break;
+            }
         }
     }
     private static InsertCardStatus checkInsertion(Card card) {
         int insertedCardRank = card.getRank();
+        Suit insertedCardSuit = card.getSuit();
 
         // Get inserted Suit of inserted Card lowest and highest values in table
-        Card[] lowestAndHighest = tableCardMap.get(card.getSuit());
+        Card[] lowestAndHighest = getSuitLowestAndHighest(insertedCardSuit);
+
         // Check if there are any Cards in table of inserted Card Suit
-        if (lowestAndHighest == null) {
+        if (lowestAndHighest[0] == null || lowestAndHighest[1] == null) {
             if (insertedCardRank == 7) {
                 return InsertCardStatus.SEVEN;
             } else {
                 return InsertCardStatus.ILLEGAL;
             }
         }
-
         int lowestRankInTable = lowestAndHighest[0].getRank();
         int highestRankInTable = lowestAndHighest[1].getRank();
 
@@ -132,8 +204,48 @@ public final class Table {
             } else
                 return InsertCardStatus.ILLEGAL;
         }
-
         return InsertCardStatus.ILLEGAL;
+    }
+    private static Card[] getSuitLowestAndHighest(Suit suit) {
+        Card[] result = new Card[2];
+        switch (suit) {
+            case HEARTS:
+                result[0] = lowestHeart;
+                result[1] = highestHeart;
+                break;
+            case DIAMONDS:
+                result[0] = lowestDiamond;
+                result[1] = highestDiamond;
+                break;
+            case CLUBS:
+                result[0] = lowestClub;
+                result[1] = highestClub;
+                break;
+            case SPADES:
+                result[0] = lowestSpade;
+                result[1] = highestSpade;
+                break;
+        }
+        return result;
+    }
+    public static void displayTableCards() {
+        String str = "\t" + (highestHeart != null ? highestHeart : "[]") + " " +
+                "\t" + (highestClub != null ? highestClub : "[]") + " " +
+                "\t" + (highestDiamond != null ? highestDiamond : "[]") + " " +
+                "\t" + (highestSpade != null ? highestSpade : "[]") +
+                "\n" +
+                "\t" + (heart7 != null ? heart7 : "[]") + " " +
+                "\t" + (club7 != null ? club7 : "[]") + " " +
+                "\t" + (diamond7 != null ? diamond7 : "[]") + " " +
+                "\t" + (spade7 != null ? spade7 : "[]") +
+                "\n" +
+                "\t" + (lowestHeart != null ? lowestHeart : "[]") + " " +
+                "\t" + (lowestClub != null ? lowestClub : "[]") + " " +
+                "\t" + (lowestDiamond != null ? lowestDiamond : "[]") + " " +
+                "\t" + (lowestSpade != null ? lowestSpade : "[]");
+        System.out.println("\n\t*** Table ***\n");
+        System.out.println(str);
+        System.out.println();
     }
 }
 

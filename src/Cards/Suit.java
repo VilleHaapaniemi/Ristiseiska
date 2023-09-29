@@ -6,7 +6,7 @@ public enum Suit {
     DIAMONDS,
     SPADES;
 
-    private final Character[] suitAsciiCodes = {'♥', '♦', '♣', '♠'};
+    private final Character[] suitAsciiCodes = {'♥', '♣', '♦', '♠'};
 
     public Character getAsciiCode() {
         return suitAsciiCodes[this.ordinal()];

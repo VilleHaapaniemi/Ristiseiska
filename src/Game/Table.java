@@ -229,20 +229,20 @@ public final class Table {
         return result;
     }
     public static void displayTableCards() {
-        String str = "\t" + (highestHeart != null ? highestHeart : "[]") + " " +
-                "\t" + (highestClub != null ? highestClub : "[]") + " " +
-                "\t" + (highestDiamond != null ? highestDiamond : "[]") + " " +
-                "\t" + (highestSpade != null ? highestSpade : "[]") +
+        String str = "\t" + (highestHeart != null ? highestHeart : "[ ]") + " " +
+                "\t" + (highestClub != null ? highestClub : "[ ]") + " " +
+                "\t" + (highestDiamond != null ? highestDiamond : "[ ]") + " " +
+                "\t" + (highestSpade != null ? highestSpade : "[ ]") +
                 "\n" +
-                "\t" + (heart7 != null ? heart7 : "[]") + " " +
-                "\t" + (club7 != null ? club7 : "[]") + " " +
-                "\t" + (diamond7 != null ? diamond7 : "[]") + " " +
-                "\t" + (spade7 != null ? spade7 : "[]") +
+                "\t" + (heart7 != null ? heart7 : "[ ]") + " " +
+                "\t" + (club7 != null ? club7 : "[ ]") + " " +
+                "\t" + (diamond7 != null ? diamond7 : "[ ]") + " " +
+                "\t" + (spade7 != null ? spade7 : "[ ]") +
                 "\n" +
-                "\t" + (lowestHeart != null ? lowestHeart : "[]") + " " +
-                "\t" + (lowestClub != null ? lowestClub : "[]") + " " +
-                "\t" + (lowestDiamond != null ? lowestDiamond : "[]") + " " +
-                "\t" + (lowestSpade != null ? lowestSpade : "[]");
+                "\t" + (lowestHeart != null ? lowestHeart : "[ ]") + " " +
+                "\t" + (lowestClub != null ? lowestClub : "[ ]") + " " +
+                "\t" + (lowestDiamond != null ? lowestDiamond : "[ ]") + " " +
+                "\t" + (lowestSpade != null ? lowestSpade : "[ ]");
         System.out.println("\n\t*** Table ***\n");
         System.out.println(str);
         System.out.println();

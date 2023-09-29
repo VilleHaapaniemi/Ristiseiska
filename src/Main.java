@@ -33,6 +33,8 @@ public class Main {
             Table.displayTableCards();
             GameInstructions.introduceCurrentPlayer();
             GameInstructions.displayCurrentPlayerHand();
+            Card addedCard = GameInstructions.askPlayerToAddCard();
+            System.out.println(addedCard);
 
             Game.setGameFinished(true);
         }

@@ -27,9 +27,12 @@ public class Main {
         Card club7 = new Card(Suit.CLUBS, "7");
         Game.getCurrentTurnPlayer().removeCardFromHand(club7);
         Table.addCardToTable(club7);
+        Game.passTurnToNextPlayer();
 
         while (!Game.isGameFinished()) {
             Table.displayTableCards();
+            GameInstructions.introduceCurrentPlayer();
+            GameInstructions.displayCurrentPlayerHand();
 
             Game.setGameFinished(true);
         }

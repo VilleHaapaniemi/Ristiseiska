@@ -6,4 +6,5 @@ public class TextColor {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_MAGENTA = "\u001B[35m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 }

@@ -30,9 +30,9 @@ public class Card implements Comparable<Card> {
     @Override
     public String toString() {
         if (this.suit.equals(Suit.HEARTS) || this.suit.equals(Suit.DIAMONDS))
-            return TextColor.ANSI_RED + this.suit.getAsciiCode() + this.faceValue + TextColor.ANSI_RESET;
+            return TextColor.ANSI_RED + this.suit.getAsciiCode() +  " " + this.faceValue + TextColor.ANSI_RESET;
         else
-            return TextColor.ANSI_MAGENTA + this.suit.getAsciiCode() + this.faceValue + TextColor.ANSI_RESET;
+            return TextColor.ANSI_BLUE + this.suit.getAsciiCode() + " " +  this.faceValue + TextColor.ANSI_RESET;
     }
 
     private Integer getRankFromFaceValue(String faceValue) {

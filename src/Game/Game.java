@@ -64,4 +64,9 @@ public final class Game {
             }
         }
     }
+    public static void passTurnToNextPlayer() {
+        int currentPlayerIndex = players.indexOf(currentTurnPlayer);
+        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
+        currentTurnPlayer = players.get(nextPlayerIndex);
+    }
 }

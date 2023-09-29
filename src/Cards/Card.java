@@ -2,12 +2,16 @@ package Cards;
 
 import Util.TextColor;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Card implements Comparable<Card> {
     private final Suit suit;
     private final String faceValue;
     private final Integer rank;
+    private final static Set<String> faceValueLookUpSet = new HashSet<>(Arrays.asList("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
 
     public Card(Suit suit, String faceValue) {
         this.suit = suit;
@@ -36,7 +40,7 @@ public class Card implements Comparable<Card> {
     }
 
     private Integer getRankFromFaceValue(String faceValue) {
-        return switch (faceValue) {
+        return switch (faceValue.toUpperCase()) {
             case "A" -> 1;
             case "2" -> 2;
             case "3" -> 3;
@@ -61,5 +65,8 @@ public class Card implements Comparable<Card> {
         // Player hand to display is ordered first by Suit and then by Rank
         return Comparator.comparing(Card::getSuit)
                 .thenComparingInt(Card::getRank);
+    }
+    public static boolean checkFaceValueInput(String input) {
+        return faceValueLookUpSet.contains(input);
     }
 }

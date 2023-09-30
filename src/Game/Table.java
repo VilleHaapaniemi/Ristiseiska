@@ -3,6 +3,9 @@ package Game;
 import Cards.Card;
 import Cards.Suit;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public final class Table {
     private static Card highestHeart;
     private static Card lowestHeart;
@@ -115,12 +118,11 @@ public final class Table {
         Table.spade7 = spade7;
     }
 
-    public static void addCardToTable(Card card) {
+    public static InsertCardStatus addCardToTable(Card card) {
         InsertCardStatus insertResult = checkInsertion(card);
 
         if (insertResult == InsertCardStatus.ILLEGAL) {
-            System.out.println("Illegal");
-            //Todo: Exception
+            return insertResult;
         }
 
         Suit addedCardSuit = card.getSuit();
@@ -170,24 +172,28 @@ public final class Table {
                     break;
             }
         }
+        return InsertCardStatus.LEGAL;
     }
     private static InsertCardStatus checkInsertion(Card card) {
         int insertedCardRank = card.getRank();
         Suit insertedCardSuit = card.getSuit();
 
         // Get inserted Suit of inserted Card lowest and highest values in table
-        Card[] lowestAndHighest = getSuitLowestAndHighest(insertedCardSuit);
+        HashMap<String, Card> suitCards = getSuitLowestAndHighest(insertedCardSuit);
+        Card lowestCard = suitCards.get("lowest");
+        Card highestCard = suitCards.get("highest");
+        Card sevenCard = suitCards.get("seven");
 
-        // Check if there are any Cards in table of inserted Card Suit
-        if (lowestAndHighest[0] == null || lowestAndHighest[1] == null) {
+        if (sevenCard == null) {
             if (insertedCardRank == 7) {
                 return InsertCardStatus.SEVEN;
             } else {
                 return InsertCardStatus.ILLEGAL;
             }
         }
-        int lowestRankInTable = lowestAndHighest[0].getRank();
-        int highestRankInTable = lowestAndHighest[1].getRank();
+
+        int lowestRankInTable = Objects.requireNonNullElse(lowestCard, sevenCard).getRank();
+        int highestRankInTable = Objects.requireNonNullElse(highestCard, sevenCard).getRank();
 
         // Check if inserted Card rank is one higher than the highest on table
         // Lowest rank in Table also must be 6 or lower before inserting higher Cards
@@ -200,33 +206,44 @@ public final class Table {
         // Check if inserted Card rank is one lower than the lowest on table
         if (insertedCardRank < 7) {
             if ((lowestRankInTable - insertedCardRank) == 1) {
-                return InsertCardStatus.LOWEST;
-            } else
-                return InsertCardStatus.ILLEGAL;
+                if (insertedCardRank != 6) { // 6 can be added before higher than 7 have added
+                    if (highestRankInTable >= 8) { // Lower than 6 can be added after 8 have added
+                        return InsertCardStatus.LOWEST;
+                    } else {
+                        return InsertCardStatus.ILLEGAL;
+                    }
+                } else {
+                    return InsertCardStatus.LOWEST;
+                }
+            }
         }
         return InsertCardStatus.ILLEGAL;
     }
-    private static Card[] getSuitLowestAndHighest(Suit suit) {
-        Card[] result = new Card[2];
+    private static HashMap<String, Card> getSuitLowestAndHighest(Suit suit) {
+        HashMap<String, Card> suitCardsMap = new HashMap<>();
         switch (suit) {
             case HEARTS:
-                result[0] = lowestHeart;
-                result[1] = highestHeart;
+                suitCardsMap.put("lowest", lowestHeart);
+                suitCardsMap.put("highest", highestHeart);
+                suitCardsMap.put("seven", heart7);
                 break;
             case DIAMONDS:
-                result[0] = lowestDiamond;
-                result[1] = highestDiamond;
+                suitCardsMap.put("lowest", lowestDiamond);
+                suitCardsMap.put("highest", highestDiamond);
+                suitCardsMap.put("seven", diamond7);
                 break;
             case CLUBS:
-                result[0] = lowestClub;
-                result[1] = highestClub;
+                suitCardsMap.put("lowest", lowestClub);
+                suitCardsMap.put("highest", highestClub);
+                suitCardsMap.put("seven", club7);
                 break;
             case SPADES:
-                result[0] = lowestSpade;
-                result[1] = highestSpade;
+                suitCardsMap.put("lowest", lowestSpade);
+                suitCardsMap.put("highest", highestSpade);
+                suitCardsMap.put("seven", spade7);
                 break;
         }
-        return result;
+        return suitCardsMap;
     }
     public static void displayTableCards() {
         String str = "\t" + (highestHeart != null ? highestHeart : "[ ]") + " " +

@@ -46,4 +46,7 @@ public class Player {
             throw new CardNotFoundException(card.toString());
         }
     }
+    public boolean handContainsCard(Card card) {
+        return hand.contains(card);
+    }
 }

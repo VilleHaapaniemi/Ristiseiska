@@ -2,11 +2,9 @@ package Util;
 
 import Cards.Card;
 import Cards.Suit;
-import Exceptions.IllegalCardInputException;
-import Exceptions.IllegalCardInputLengthException;
 import Game.Game;
-import Player.Player;
 import Game.Table;
+import Player.Player;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -49,49 +47,14 @@ public final class GameInstructions {
             previousCard = card;
         }
     }
-    public static Card askPlayerToAddCard() {
+    public static void askPlayerToAddCardInstructions() {
         System.out.println("\nSelect which card add to table");
         System.out.println("h = heart, c = club, d = diamond, s = spade");
         System.out.println("a = ace, j = jack, q = queen, k = king");
         System.out.println("Type suit and card face value (example: s7 or hk)");
-        Scanner scanner = new Scanner(System.in);
-        String cardInput = scanner.nextLine();
-
-        Card addedCard = null;
-        try {
-            addedCard = checkCardUserInput(cardInput);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-        }
-        return addedCard;
     }
     public static void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-    private static Card checkCardUserInput(String cardInput) {
-        if (!(cardInput.length() == 2 || cardInput.length() == 3)) {
-            throw new IllegalCardInputLengthException("Card input is not 2 or 3 characters long");
-        }
-
-        Character suitCharacter = cardInput.charAt(0);
-        String faceValueString;
-        if (cardInput.length() == 3) {
-            if (cardInput.charAt(1) == '1' && cardInput.charAt(2) == '0') {
-                faceValueString = "10";
-            } else {
-                throw new IllegalCardInputException("Illegal input");
-            }
-        } else {
-            faceValueString = String.valueOf(cardInput.charAt(1)).toUpperCase();
-        }
-
-        Suit suit = Suit.getSuitByChar(suitCharacter);
-        boolean faceValueInputValid = Card.checkFaceValueInput(faceValueString);
-        if (!faceValueInputValid) {
-            return null;
-        }
-        return new Card(suit, faceValueString);
-    }
-
 }

@@ -4,5 +4,6 @@ public enum InsertCardStatus {
     LOWEST,
     HIGHEST,
     SEVEN,
-    ILLEGAL;
+    ILLEGAL,
+    LEGAL;
 }

@@ -3,10 +3,13 @@ package Game;
 import Cards.Card;
 import Cards.Deck;
 import Cards.Suit;
+import Exceptions.IllegalCardInputException;
+import Exceptions.IllegalCardInputLengthException;
 import Player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 public final class Game {
@@ -68,5 +71,45 @@ public final class Game {
         int currentPlayerIndex = players.indexOf(currentTurnPlayer);
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
         currentTurnPlayer = players.get(nextPlayerIndex);
+    }
+    public static Card askPlayerToAddCard() {
+        Card addedCard;
+        Scanner scanner = new Scanner(System.in);
+        do {
+            String cardInput = scanner.nextLine();
+            try {
+                addedCard = checkCardUserInput(cardInput);
+                if (addedCard != null) {
+                    break;
+                }
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+        return addedCard;
+    }
+    private static Card checkCardUserInput(String cardInput) {
+        if (!(cardInput.length() == 2 || cardInput.length() == 3)) {
+            throw new IllegalCardInputLengthException("Card input is not 2 or 3 characters long");
+        }
+
+        Character suitCharacter = cardInput.charAt(0);
+        String faceValueString;
+        if (cardInput.length() == 3) {
+            if (cardInput.charAt(1) == '1' && cardInput.charAt(2) == '0') {
+                faceValueString = "10";
+            } else {
+                throw new IllegalCardInputException("Illegal input");
+            }
+        } else {
+            faceValueString = String.valueOf(cardInput.charAt(1)).toUpperCase();
+        }
+
+        Suit suit = Suit.getSuitByChar(suitCharacter);
+        boolean faceValueInputValid = Card.checkFaceValueInput(faceValueString);
+        if (!faceValueInputValid) {
+            return null;
+        }
+        return new Card(suit, faceValueString);
     }
 }

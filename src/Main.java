@@ -2,7 +2,6 @@ import Cards.Card;
 import Cards.Deck;
 import Cards.Suit;
 import Game.Game;
-import Game.InsertCardStatus;
 import Game.Table;
 import Util.GameInstructions;
 import Util.GameSelections;
@@ -36,27 +35,7 @@ public class Main {
             GameInstructions.displayCurrentPlayerHand();
             GameInstructions.askPlayerToAddCardInstructions();
 
-            // Ask Card from Player and loop while given Card could be added to Table without errors
-            Card addedCard;
-            boolean playerHaveCard;
-            InsertCardStatus status = null;
-            do {
-                // Ask Player input to add Card to Table
-                addedCard = Game.askPlayerToAddCard();
-                // Check if Player have given Card
-                playerHaveCard = Game.getCurrentTurnPlayer().handContainsCard(addedCard);
-                if (!playerHaveCard) {
-                    System.out.println("You don't have this card in your hand. Please try again.");
-                    continue;
-                } else {
-                    status = Table.addCardToTable(addedCard); // Add is legal or illegal
-                }
-                if (status.equals(InsertCardStatus.ILLEGAL)) {
-                    System.out.println("Illegal insertion. Please try again.");
-                }
-            } while (!playerHaveCard || !status.equals(InsertCardStatus.LEGAL));
-
-            Game.getCurrentTurnPlayer().removeCardFromHand(addedCard);
+            Game.letCurrentPlayerAddCardToTable();
             Game.passTurnToNextPlayer();
             //Game.setGameFinished(true);
         }

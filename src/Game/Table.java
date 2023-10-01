@@ -179,7 +179,7 @@ public final class Table {
         Suit insertedCardSuit = card.getSuit();
 
         // Get inserted Suit of inserted Card lowest and highest values in table
-        HashMap<String, Card> suitCards = getSuitLowestAndHighest(insertedCardSuit);
+        HashMap<String, Card> suitCards = getSuitLowestHighestAndSeven(insertedCardSuit);
         Card lowestCard = suitCards.get("lowest");
         Card highestCard = suitCards.get("highest");
         Card sevenCard = suitCards.get("seven");
@@ -195,31 +195,39 @@ public final class Table {
         int lowestRankInTable = Objects.requireNonNullElse(lowestCard, sevenCard).getRank();
         int highestRankInTable = Objects.requireNonNullElse(highestCard, sevenCard).getRank();
 
-        // Check if inserted Card rank is one higher than the highest on table
-        // Lowest rank in Table also must be 6 or lower before inserting higher Cards
         if (insertedCardRank > 7) {
-            if ((insertedCardRank - highestRankInTable) == 1 && lowestRankInTable <= 6) {
-                return InsertCardStatus.HIGHEST;
-            } else
-                return InsertCardStatus.ILLEGAL;
+            return handleHighCard(insertedCardRank, lowestRankInTable, highestRankInTable);
         }
-        // Check if inserted Card rank is one lower than the lowest on table
         if (insertedCardRank < 7) {
-            if ((lowestRankInTable - insertedCardRank) == 1) {
-                if (insertedCardRank != 6) { // 6 can be added before higher than 7 have added
-                    if (highestRankInTable >= 8) { // Lower than 6 can be added after 8 have added
-                        return InsertCardStatus.LOWEST;
-                    } else {
-                        return InsertCardStatus.ILLEGAL;
-                    }
-                } else {
-                    return InsertCardStatus.LOWEST;
-                }
-            }
+            return handleLowCard(insertedCardRank, lowestRankInTable, highestRankInTable);
         }
         return InsertCardStatus.ILLEGAL;
     }
-    private static HashMap<String, Card> getSuitLowestAndHighest(Suit suit) {
+    private static InsertCardStatus handleHighCard(int insertedCardRank, int lowestRankInTable, int highestRankInTable) {
+        // Check if inserted Card rank is one higher than the highest on table
+        // Lowest rank in Table also must be 6 or lower before inserting higher Cards
+        if ((insertedCardRank - highestRankInTable) == 1 && lowestRankInTable <= 6) {
+            return InsertCardStatus.HIGHEST;
+        } else
+            return InsertCardStatus.ILLEGAL;
+    }
+    private static InsertCardStatus handleLowCard(int insertedCardRank, int lowestRankInTable, int highestRankInTable) {
+        // Check if inserted Card rank is one lower than the lowest on table
+        if ((lowestRankInTable - insertedCardRank) == 1) {
+            if (insertedCardRank != 6) { // 6 can be added before higher than 7 have added
+                if (highestRankInTable >= 8) { // Lower than 6 can be added after 8 have added
+                    return InsertCardStatus.LOWEST;
+                } else {
+                    return InsertCardStatus.ILLEGAL;
+                }
+            } else {
+                return InsertCardStatus.LOWEST;
+            }
+        } else {
+            return InsertCardStatus.ILLEGAL;
+        }
+    }
+    private static HashMap<String, Card> getSuitLowestHighestAndSeven(Suit suit) {
         HashMap<String, Card> suitCardsMap = new HashMap<>();
         switch (suit) {
             case HEARTS:

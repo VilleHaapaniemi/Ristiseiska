@@ -72,6 +72,29 @@ public final class Game {
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
         currentTurnPlayer = players.get(nextPlayerIndex);
     }
+    public static void letCurrentPlayerAddCardToTable() {
+        // Ask Card from Player and loop while given Card could be added to Table without errors
+        Card addedCard;
+        boolean playerHaveCard;
+        InsertCardStatus status = null;
+        do {
+            // Ask Player input to add Card to Table
+            addedCard = askPlayerToAddCard();
+            // Check if Player have given Card
+            playerHaveCard = getCurrentTurnPlayer().handContainsCard(addedCard);
+            if (!playerHaveCard) {
+                System.out.println("You don't have this card in your hand. Please try again.");
+                continue;
+            } else {
+                status = Table.addCardToTable(addedCard); // Add is legal or illegal
+            }
+            if (status.equals(InsertCardStatus.ILLEGAL)) {
+                System.out.println("Illegal insertion. Please try again.");
+            }
+        } while (!playerHaveCard || !status.equals(InsertCardStatus.LEGAL));
+
+        getCurrentTurnPlayer().removeCardFromHand(addedCard);
+    }
     public static Card askPlayerToAddCard() {
         Card addedCard;
         Scanner scanner = new Scanner(System.in);

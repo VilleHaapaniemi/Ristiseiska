@@ -1,4 +1,4 @@
-package Game;
+package Ristiseiska.Game;
 
 public enum InsertCardStatus {
     LOWEST,

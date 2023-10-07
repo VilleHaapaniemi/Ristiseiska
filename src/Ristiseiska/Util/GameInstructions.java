@@ -1,10 +1,10 @@
-package Util;
+package Ristiseiska.Util;
 
-import Cards.Card;
-import Cards.Suit;
-import Game.Game;
-import Game.Table;
-import Player.Player;
+import Ristiseiska.Cards.Card;
+import Ristiseiska.Cards.Suit;
+import Ristiseiska.Game.Game;
+import Ristiseiska.Game.Table;
+import Ristiseiska.Player.Player;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -51,6 +51,7 @@ public final class GameInstructions {
         System.out.println("\nSelect which card add to table");
         System.out.println("h = heart, c = club, d = diamond, s = spade");
         System.out.println("a = ace, j = jack, q = queen, k = king");
+        System.out.println("x = Skip turn");
         System.out.println("Type suit and card face value (example: s7 or hk)");
     }
     public static void clearConsole() {

@@ -1,4 +1,4 @@
-package Util;
+package Ristiseiska.Util;
 
 import java.util.LinkedHashSet;
 import java.util.Scanner;

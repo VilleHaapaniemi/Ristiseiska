@@ -1,10 +1,12 @@
-import Cards.Card;
-import Cards.Deck;
-import Cards.Suit;
-import Game.Game;
-import Game.Table;
-import Util.GameInstructions;
-import Util.GameSelections;
+package Ristiseiska;
+
+import Ristiseiska.Cards.Card;
+import Ristiseiska.Cards.Deck;
+import Ristiseiska.Cards.Suit;
+import Ristiseiska.Game.Game;
+import Ristiseiska.Game.Table;
+import Ristiseiska.Util.GameInstructions;
+import Ristiseiska.Util.GameSelections;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,9 +37,12 @@ public class Main {
             GameInstructions.displayCurrentPlayerHand();
             GameInstructions.askPlayerToAddCardInstructions();
 
-            Game.letCurrentPlayerAddCardToTable();
+            boolean cardAdded = Game.letCurrentPlayerAddCardToTable();
+            if (!cardAdded && !Game.isIsFirstRound()) {
+                System.out.println("Player skipped");
+            }
             Game.passTurnToNextPlayer();
-            //Game.setGameFinished(true);
+            // Game.setGameFinished(true);
         }
     }
 }

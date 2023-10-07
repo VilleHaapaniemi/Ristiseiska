@@ -1,7 +1,7 @@
-package Game;
+package Ristiseiska.Game;
 
-import Cards.Card;
-import Cards.Suit;
+import Ristiseiska.Cards.Card;
+import Ristiseiska.Cards.Suit;
 
 import java.util.HashMap;
 import java.util.Objects;

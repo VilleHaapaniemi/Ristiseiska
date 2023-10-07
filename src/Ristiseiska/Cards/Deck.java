@@ -1,4 +1,4 @@
-package Cards;
+package Ristiseiska.Cards;
 
 import java.util.ArrayList;
 import java.util.Collections;

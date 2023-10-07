@@ -1,8 +1,8 @@
-package Player;
+package Ristiseiska.Player;
 
-import Cards.Card;
-import Exceptions.CardNotFoundException;
-import Exceptions.DuplicateCardException;
+import Ristiseiska.Cards.Card;
+import Ristiseiska.Exceptions.CardNotFoundException;
+import Ristiseiska.Exceptions.DuplicateCardException;
 
 import java.util.*;
 

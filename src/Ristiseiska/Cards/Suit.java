@@ -1,6 +1,6 @@
-package Cards;
+package Ristiseiska.Cards;
 
-import Exceptions.IllegalCardInputException;
+import Ristiseiska.Exceptions.IllegalCardInputException;
 
 public enum Suit {
     HEARTS,

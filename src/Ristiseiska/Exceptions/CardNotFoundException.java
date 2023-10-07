@@ -1,4 +1,4 @@
-package Exceptions;
+package Ristiseiska.Exceptions;
 
 public class CardNotFoundException extends RuntimeException {
     public CardNotFoundException(String message) {

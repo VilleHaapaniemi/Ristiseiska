@@ -1,6 +1,6 @@
-package Cards;
+package Ristiseiska.Cards;
 
-import Util.TextColor;
+import Ristiseiska.Util.TextColor;
 
 import java.util.Arrays;
 import java.util.Comparator;

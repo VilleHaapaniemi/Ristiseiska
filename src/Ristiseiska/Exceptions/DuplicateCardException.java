@@ -1,4 +1,4 @@
-package Exceptions;
+package Ristiseiska.Exceptions;
 
 public class DuplicateCardException extends RuntimeException {
     public DuplicateCardException(String message) {

@@ -1,11 +1,11 @@
-package Game;
+package Ristiseiska.Game;
 
-import Cards.Card;
-import Cards.Deck;
-import Cards.Suit;
-import Exceptions.IllegalCardInputException;
-import Exceptions.IllegalCardInputLengthException;
-import Player.Player;
+import Ristiseiska.Cards.Card;
+import Ristiseiska.Cards.Deck;
+import Ristiseiska.Cards.Suit;
+import Ristiseiska.Exceptions.IllegalCardInputException;
+import Ristiseiska.Exceptions.IllegalCardInputLengthException;
+import Ristiseiska.Player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,9 @@ import java.util.Set;
 public final class Game {
     private static List<Player> players = new ArrayList<>();
     private static boolean gameFinished;
+    private static boolean isFirstRound = true;
     private static Player currentTurnPlayer;
+    private static Player startingPlayer;
 
     private Game() {}
 
@@ -47,6 +49,15 @@ public final class Game {
     public static void setGameFinished(boolean gameFinishedVal) {
         gameFinished = gameFinishedVal;
     }
+
+    public static boolean isIsFirstRound() {
+        return isFirstRound;
+    }
+
+    public static void setIsFirstRound(boolean isFirstRound) {
+        Game.isFirstRound = isFirstRound;
+    }
+
     public static void drawHandsToPlayers(Deck drawingDeck) {
         int i = 0;
         int playersCount = players.size();
@@ -62,6 +73,7 @@ public final class Game {
         Card clubs7 = new Card(Suit.CLUBS, "7");
         for (Player player : players) {
             if (player.getHand().contains(clubs7)) {
+                startingPlayer = player;
                 currentTurnPlayer = player;
                 break;
             }
@@ -71,8 +83,14 @@ public final class Game {
         int currentPlayerIndex = players.indexOf(currentTurnPlayer);
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
         currentTurnPlayer = players.get(nextPlayerIndex);
+
+        // When whole round have passed set isFirstRound to false
+        //TODO: Fix this
+        if (isFirstRound && players.indexOf(startingPlayer) == currentPlayerIndex) {
+            isFirstRound = false;
+        }
     }
-    public static void letCurrentPlayerAddCardToTable() {
+    public static boolean letCurrentPlayerAddCardToTable() {
         // Ask Card from Player and loop while given Card could be added to Table without errors
         Card addedCard;
         boolean playerHaveCard;
@@ -80,6 +98,10 @@ public final class Game {
         do {
             // Ask Player input to add Card to Table
             addedCard = askPlayerToAddCard();
+            // If Player don't have any Card to add, addedCard is null
+            if (addedCard == null) {
+                return false;
+            }
             // Check if Player have given Card
             playerHaveCard = getCurrentTurnPlayer().handContainsCard(addedCard);
             if (!playerHaveCard) {
@@ -94,18 +116,23 @@ public final class Game {
         } while (!playerHaveCard || !status.equals(InsertCardStatus.LEGAL));
 
         getCurrentTurnPlayer().removeCardFromHand(addedCard);
+        return true;
     }
     public static Card askPlayerToAddCard() {
         Card addedCard;
         Scanner scanner = new Scanner(System.in);
         do {
             String cardInput = scanner.nextLine();
+            // User input x means Player don't have any Card to add
+            if (cardInput.equals("x")) {
+                return null;
+            }
             try {
                 addedCard = checkCardUserInput(cardInput);
                 if (addedCard != null) {
                     break;
                 }
-            } catch (RuntimeException e) {
+            } catch (RuntimeException e) { // Catch all errors which occurs when user try to add Card
                 System.out.println(e.getMessage());
             }
         } while (true);

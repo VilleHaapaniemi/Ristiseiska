@@ -1,5 +1,3 @@
-package Ristiseiska;
-
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Cards.Deck;
 import Ristiseiska.Cards.Suit;

@@ -32,14 +32,19 @@ public class Main {
         while (!Game.isGameFinished()) {
             Table.displayTableCards();
             GameInstructions.introduceCurrentPlayer();
+            GameInstructions.clearConsole();
+            Table.displayTableCards();
             GameInstructions.displayPlayerHand(Game.getCurrentTurnPlayer());
             GameInstructions.askPlayerToAddCardInstructions();
 
             boolean cardAdded = Game.letCurrentPlayerAddCardToTable();
             if (!cardAdded && !Game.isIsFirstRound()) {
+                GameInstructions.clearConsole();
+                Table.displayTableCards();
                 Card givenCard = Game.getCardFromPreviousPlayer();
                 Game.getCurrentTurnPlayer().addCardToHand(givenCard);
             }
+            GameInstructions.clearConsole();
             Game.passTurnToNextPlayer();
             // Game.setGameFinished(true);
         }

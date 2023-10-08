@@ -28,7 +28,6 @@ public final class GameInstructions {
         System.out.println("Press enter to continue...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        clearConsole();
     }
     public static void displayPlayerHand(Player player) {
         Set<Card> hand = player.getHand();

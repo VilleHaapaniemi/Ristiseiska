@@ -3,8 +3,11 @@ package Ristiseiska.Player;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Exceptions.CardNotFoundException;
 import Ristiseiska.Exceptions.DuplicateCardException;
+import Ristiseiska.Util.GameInstructions;
+import Ristiseiska.Util.GameSelections;
 
-import java.util.*;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Player {
     private String name;
@@ -48,5 +51,22 @@ public class Player {
     }
     public boolean handContainsCard(Card card) {
         return hand.contains(card);
+    }
+    public Card giveCardToOtherPlayer() {
+        GameInstructions.displayPlayerHand(this);
+        GameInstructions.askPlayerToGiveCardInstructions();
+        Card givenCard;
+        boolean cardFound = false;
+        do {
+            givenCard = GameSelections.askPlayerToAddCard();
+            if (handContainsCard(givenCard)) {
+                cardFound = true;
+            } else {
+                System.out.println("You don't have this card in your hand. Please try again");
+            }
+        } while (!cardFound);
+
+        removeCardFromHand(givenCard);
+        return givenCard;
     }
 }

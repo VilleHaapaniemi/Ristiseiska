@@ -3,7 +3,6 @@ package Ristiseiska.Util;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Cards.Suit;
 import Ristiseiska.Game.Game;
-import Ristiseiska.Game.Table;
 import Ristiseiska.Player.Player;
 
 import java.util.Scanner;
@@ -31,11 +30,8 @@ public final class GameInstructions {
         scanner.nextLine();
         clearConsole();
     }
-    public static void displayCurrentPlayerHand() {
-        Table.displayTableCards(); // Display table to current Player
-
-        Player currentPlayer = Game.getCurrentTurnPlayer();
-        Set<Card> hand = currentPlayer.getHand();
+    public static void displayPlayerHand(Player player) {
+        Set<Card> hand = player.getHand();
         Card previousCard = null;
         // Display current Player hand
         System.out.println("Your hand:");
@@ -49,9 +45,16 @@ public final class GameInstructions {
     }
     public static void askPlayerToAddCardInstructions() {
         System.out.println("\nSelect which card add to table");
+        System.out.println("x = Skip turn");
+        cardInputInstructions();
+    }
+    public static void askPlayerToGiveCardInstructions() {
+        System.out.println("\nSelect which card to give to previous player");
+        cardInputInstructions();
+    }
+    private static void cardInputInstructions() {
         System.out.println("h = heart, c = club, d = diamond, s = spade");
         System.out.println("a = ace, j = jack, q = queen, k = king");
-        System.out.println("x = Skip turn");
         System.out.println("Type suit and card face value (example: s7 or hk)");
     }
     public static void clearConsole() {

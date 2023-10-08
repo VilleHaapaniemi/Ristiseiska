@@ -3,9 +3,8 @@ package Ristiseiska.Game;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Cards.Deck;
 import Ristiseiska.Cards.Suit;
-import Ristiseiska.Exceptions.IllegalCardInputException;
-import Ristiseiska.Exceptions.IllegalCardInputLengthException;
 import Ristiseiska.Player.Player;
+import Ristiseiska.Util.GameSelections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,15 +79,17 @@ public final class Game {
         }
     }
     public static void passTurnToNextPlayer() {
-        int currentPlayerIndex = players.indexOf(currentTurnPlayer);
-        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
-        currentTurnPlayer = players.get(nextPlayerIndex);
+        currentTurnPlayer = getNextTurnPlayer();
 
         // When whole round have passed set isFirstRound to false
-        //TODO: Fix this
-        if (isFirstRound && players.indexOf(startingPlayer) == currentPlayerIndex) {
+        if (isFirstRound && currentTurnPlayer.equals(startingPlayer)) {
             isFirstRound = false;
         }
+    }
+    private static Player getNextTurnPlayer() {
+        int currentPlayerIndex = players.indexOf(currentTurnPlayer);
+        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
+        return players.get(nextPlayerIndex);
     }
     public static boolean letCurrentPlayerAddCardToTable() {
         // Ask Card from Player and loop while given Card could be added to Table without errors
@@ -97,7 +98,7 @@ public final class Game {
         InsertCardStatus status = null;
         do {
             // Ask Player input to add Card to Table
-            addedCard = askPlayerToAddCard();
+            addedCard = GameSelections.askPlayerToAddCard();
             // If Player don't have any Card to add, addedCard is null
             if (addedCard == null) {
                 return false;
@@ -118,48 +119,14 @@ public final class Game {
         getCurrentTurnPlayer().removeCardFromHand(addedCard);
         return true;
     }
-    public static Card askPlayerToAddCard() {
-        Card addedCard;
+    public static Card getCardFromPreviousPlayer() {
+        System.out.println(currentTurnPlayer.getName() + " Skipped turn");
+        Player nextPlayer = getNextTurnPlayer();
+        System.out.println(nextPlayer.getName() + " can choose card from hand to give it to " + currentTurnPlayer.getName());
+        System.out.println("Press enter to continue...");
         Scanner scanner = new Scanner(System.in);
-        do {
-            String cardInput = scanner.nextLine();
-            // User input x means Player don't have any Card to add
-            if (cardInput.equals("x")) {
-                return null;
-            }
-            try {
-                addedCard = checkCardUserInput(cardInput);
-                if (addedCard != null) {
-                    break;
-                }
-            } catch (RuntimeException e) { // Catch all errors which occurs when user try to add Card
-                System.out.println(e.getMessage());
-            }
-        } while (true);
-        return addedCard;
-    }
-    private static Card checkCardUserInput(String cardInput) {
-        if (!(cardInput.length() == 2 || cardInput.length() == 3)) {
-            throw new IllegalCardInputLengthException("Card input is not 2 or 3 characters long");
-        }
+        scanner.nextLine();
 
-        Character suitCharacter = cardInput.charAt(0);
-        String faceValueString;
-        if (cardInput.length() == 3) {
-            if (cardInput.charAt(1) == '1' && cardInput.charAt(2) == '0') {
-                faceValueString = "10";
-            } else {
-                throw new IllegalCardInputException("Illegal input");
-            }
-        } else {
-            faceValueString = String.valueOf(cardInput.charAt(1)).toUpperCase();
-        }
-
-        Suit suit = Suit.getSuitByChar(suitCharacter);
-        boolean faceValueInputValid = Card.checkFaceValueInput(faceValueString);
-        if (!faceValueInputValid) {
-            return null;
-        }
-        return new Card(suit, faceValueString);
+        return nextPlayer.giveCardToOtherPlayer();
     }
 }

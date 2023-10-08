@@ -32,12 +32,13 @@ public class Main {
         while (!Game.isGameFinished()) {
             Table.displayTableCards();
             GameInstructions.introduceCurrentPlayer();
-            GameInstructions.displayCurrentPlayerHand();
+            GameInstructions.displayPlayerHand(Game.getCurrentTurnPlayer());
             GameInstructions.askPlayerToAddCardInstructions();
 
             boolean cardAdded = Game.letCurrentPlayerAddCardToTable();
             if (!cardAdded && !Game.isIsFirstRound()) {
-                System.out.println("Player skipped");
+                Card givenCard = Game.getCardFromPreviousPlayer();
+                Game.getCurrentTurnPlayer().addCardToHand(givenCard);
             }
             Game.passTurnToNextPlayer();
             // Game.setGameFinished(true);

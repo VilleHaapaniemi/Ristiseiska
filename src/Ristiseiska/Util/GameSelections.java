@@ -1,5 +1,10 @@
 package Ristiseiska.Util;
 
+import Ristiseiska.Cards.Card;
+import Ristiseiska.Cards.Suit;
+import Ristiseiska.Exceptions.IllegalCardInputException;
+import Ristiseiska.Exceptions.IllegalCardInputLengthException;
+
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -62,5 +67,49 @@ public final class GameSelections {
             }
             playerNames.add(nameInput);
         }
+    }
+    public static Card askPlayerToAddCard() {
+        Card addedCard;
+        Scanner scanner = new Scanner(System.in);
+        do {
+            String cardInput = scanner.nextLine();
+            // User input x means Player don't have any Card to add
+            if (cardInput.equals("x")) {
+                return null;
+            }
+            try {
+                addedCard = checkCardUserInput(cardInput);
+                if (addedCard != null) {
+                    break;
+                }
+            } catch (RuntimeException e) { // Catch all errors which occurs when user try to add Card
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+        return addedCard;
+    }
+    private static Card checkCardUserInput(String cardInput) {
+        if (!(cardInput.length() == 2 || cardInput.length() == 3)) {
+            throw new IllegalCardInputLengthException("Card input is not 2 or 3 characters long");
+        }
+
+        Character suitCharacter = cardInput.charAt(0);
+        String faceValueString;
+        if (cardInput.length() == 3) {
+            if (cardInput.charAt(1) == '1' && cardInput.charAt(2) == '0') {
+                faceValueString = "10";
+            } else {
+                throw new IllegalCardInputException("Illegal input");
+            }
+        } else {
+            faceValueString = String.valueOf(cardInput.charAt(1)).toUpperCase();
+        }
+
+        Suit suit = Suit.getSuitByChar(suitCharacter);
+        boolean faceValueInputValid = Card.checkFaceValueInput(faceValueString);
+        if (!faceValueInputValid) {
+            return null;
+        }
+        return new Card(suit, faceValueString);
     }
 }

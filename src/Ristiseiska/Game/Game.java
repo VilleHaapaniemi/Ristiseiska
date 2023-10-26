@@ -91,7 +91,7 @@ public final class Game {
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size(); // Wrap beginning of list if last player in list
         return players.get(nextPlayerIndex);
     }
-    public static boolean letCurrentPlayerAddCardToTable() {
+    public static AddedCardResult letCurrentPlayerAddCardToTable() {
         // Ask Card from Player and loop while given Card could be added to Table without errors
         Card addedCard;
         boolean playerHaveCard;
@@ -101,7 +101,7 @@ public final class Game {
             addedCard = GameSelections.askPlayerToAddCard();
             // If Player don't have any Card to add, addedCard is null
             if (addedCard == null) {
-                return false;
+                return AddedCardResult.SKIP;
             }
             // Check if Player have given Card
             playerHaveCard = getCurrentTurnPlayer().handContainsCard(addedCard);
@@ -116,7 +116,10 @@ public final class Game {
             }
         } while (!playerHaveCard || !status.equals(InsertCardStatus.LEGAL));
 
+        // Remove given Card from player hand
         getCurrentTurnPlayer().removeCardFromHand(addedCard);
+
+
         return true;
     }
     public static Card getCardFromPreviousPlayer() {

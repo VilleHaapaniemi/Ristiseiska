@@ -1,6 +1,7 @@
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Cards.Deck;
 import Ristiseiska.Cards.Suit;
+import Ristiseiska.Game.AddedCardResult;
 import Ristiseiska.Game.Game;
 import Ristiseiska.Game.Table;
 import Ristiseiska.Util.GameInstructions;
@@ -37,16 +38,24 @@ public class Main {
             GameInstructions.displayPlayerHand(Game.getCurrentTurnPlayer());
             GameInstructions.askPlayerToAddCardInstructions();
 
-            boolean cardAdded = Game.letCurrentPlayerAddCardToTable();
-            if (!cardAdded && !Game.isIsFirstRound()) {
+            AddedCardResult addedCardResult = Game.letCurrentPlayerAddCardToTable();
+            if (addedCardResult.equals(AddedCardResult.SKIP) && !Game.isIsFirstRound()) { // On first round no need to ask Card from others
                 GameInstructions.clearConsole();
                 Table.displayTableCards();
                 Card givenCard = Game.getCardFromPreviousPlayer();
                 Game.getCurrentTurnPlayer().addCardToHand(givenCard);
             }
+            if (addedCardResult.equals(AddedCardResult.INSERTED_CUT)) { // Added card is Ace or King
+                GameInstructions.clearConsole();
+                boolean playerContinuesTurn = GameInstructions.askPlayerToContinueTurn();
+                // If player wants to continue turn. Continue the main while loop without ending on pass turn to next player later
+                if (playerContinuesTurn) {
+                    continue;
+                }
+            }
+
             GameInstructions.clearConsole();
             Game.passTurnToNextPlayer();
-            // Game.setGameFinished(true);
         }
     }
 }

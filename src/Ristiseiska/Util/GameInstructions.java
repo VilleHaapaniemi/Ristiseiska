@@ -56,6 +56,17 @@ public final class GameInstructions {
         System.out.println("a = ace, j = jack, q = queen, k = king");
         System.out.println("Type suit and card face value (example: s7 or hk)");
     }
+    public static boolean askPlayerToContinueTurn() {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        do {
+            System.out.println("You inserted cutting card!");
+            System.out.println("Do you want to continue and add another card? y/n ?");
+            input = scanner.nextLine();
+        } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
+
+        return input.equalsIgnoreCase("y");
+    }
     public static void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

@@ -3,7 +3,6 @@ package Ristiseiska.Player;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Exceptions.CardNotFoundException;
 import Ristiseiska.Exceptions.DuplicateCardException;
-import Ristiseiska.Game.Game;
 import Ristiseiska.Util.GameInstructions;
 import Ristiseiska.Util.GameSelections;
 
@@ -48,9 +47,6 @@ public class Player {
         boolean result = this.hand.remove(card);
         if (!result) {
             throw new CardNotFoundException(card.toString());
-        }
-        if (hand.isEmpty()) {
-            Game.setGameFinished(true);
         }
     }
     public boolean handContainsCard(Card card) {

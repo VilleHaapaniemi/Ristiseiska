@@ -118,9 +118,15 @@ public final class Game {
 
         // Remove given Card from player hand
         getCurrentTurnPlayer().removeCardFromHand(addedCard);
+        if (getCurrentTurnPlayer().getHand().isEmpty()) {
+            return AddedCardResult.WIN;
+        }
 
+        if (addedCard.getFaceValue().equals("A") || addedCard.getFaceValue().equals("K")) {
+            return AddedCardResult.INSERTED_CUT;
+        }
 
-        return true;
+        return AddedCardResult.INSERTED;
     }
     public static Card getCardFromPreviousPlayer() {
         System.out.println(currentTurnPlayer.getName() + " Skipped turn");

@@ -3,13 +3,11 @@ package Ristiseiska.Player;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Exceptions.CardNotFoundException;
 import Ristiseiska.Exceptions.DuplicateCardException;
-import Ristiseiska.Util.GameInstructions;
-import Ristiseiska.Util.GameSelections;
 
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Player {
+public abstract class Player {
     private String name;
     private Set<Card> hand = new TreeSet<>(Card.getPlayerHandComparator());
 
@@ -52,25 +50,6 @@ public class Player {
     public boolean handContainsCard(Card card) {
         return hand.contains(card);
     }
-    public Card giveCardToOtherPlayer() {
-        GameInstructions.displayPlayerHand(this);
-        GameInstructions.askPlayerToGiveCardInstructions();
-        Card givenCard;
-        boolean cardFound = false;
-        do {
-            givenCard = GameSelections.askPlayerToAddCard();
-            if (givenCard == null) {
-                System.out.println("Illegal input. Please try again");
-                continue;
-            }
-            if (handContainsCard(givenCard)) {
-                cardFound = true;
-            } else {
-                System.out.println("You don't have this card in your hand. Please try again");
-            }
-        } while (!cardFound);
-
-        removeCardFromHand(givenCard);
-        return givenCard;
-    }
+    public abstract Card giveCardToOtherPlayer();
+    public abstract Card getCardFromPlayer();
 }

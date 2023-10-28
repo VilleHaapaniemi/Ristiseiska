@@ -10,6 +10,7 @@ import Ristiseiska.Util.GameSelections;
 public class Main {
     public static void main(String[] args) {
         GameInstructions.start();
+        //TODO: GameSelections methods ask and sets only human Players now
         GameSelections.askPlayerCount();
         GameSelections.askPlayerNames();
         Game.setPlayers(GameSelections.getPlayerNames()); // Set the inserted players to the Game
@@ -46,7 +47,7 @@ public class Main {
                 Game.getCurrentTurnPlayer().addCardToHand(givenCard);
             }
             if (addedCardResult.equals(AddedCardResult.INSERTED_CUT)) { // Added card is Ace or King
-                GameInstructions.clearConsole();
+                System.out.println();
                 boolean playerContinuesTurn = GameInstructions.askPlayerToContinueTurn();
                 // If player wants to continue turn. Continue the main while loop without ending on pass turn to next player later
                 if (playerContinuesTurn) {

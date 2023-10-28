@@ -3,8 +3,8 @@ package Ristiseiska.Game;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Cards.Deck;
 import Ristiseiska.Cards.Suit;
+import Ristiseiska.Player.HumanPlayer;
 import Ristiseiska.Player.Player;
-import Ristiseiska.Util.GameSelections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public final class Game {
     }
     public static void setPlayers(Set<String> playerNames) {
         for (String name : playerNames) {
-               players.add(new Player(name));
+               players.add(new HumanPlayer(name));
         }
     }
 
@@ -92,33 +92,16 @@ public final class Game {
         return players.get(nextPlayerIndex);
     }
     public static AddedCardResult letCurrentPlayerAddCardToTable() {
-        // Ask Card from Player and loop while given Card could be added to Table without errors
-        Card addedCard;
-        boolean playerHaveCard;
-        InsertCardStatus status = null;
-        do {
-            // Ask Player input to add Card to Table
-            addedCard = GameSelections.askPlayerToAddCard();
-            // If Player don't have any Card to add, addedCard is null
-            if (addedCard == null) {
-                return AddedCardResult.SKIP;
-            }
-            // Check if Player have given Card
-            playerHaveCard = getCurrentTurnPlayer().handContainsCard(addedCard);
-            if (!playerHaveCard) {
-                System.out.println("You don't have this card in your hand. Please try again.");
-                continue;
-            } else {
-                status = Table.addCardToTable(addedCard); // Add is legal or illegal
-            }
-            if (status.equals(InsertCardStatus.ILLEGAL)) {
-                System.out.println("Illegal insertion. Please try again.");
-            }
-        } while (!playerHaveCard || !status.equals(InsertCardStatus.LEGAL));
+        Card addedCard = currentTurnPlayer.getCardFromPlayer();
+
+        if (addedCard == null) {
+            return AddedCardResult.SKIP;
+        }
 
         // Remove given Card from player hand
-        getCurrentTurnPlayer().removeCardFromHand(addedCard);
-        if (getCurrentTurnPlayer().getHand().isEmpty()) {
+        currentTurnPlayer.removeCardFromHand(addedCard);
+
+        if (currentTurnPlayer.getHand().isEmpty()) {
             return AddedCardResult.WIN;
         }
 

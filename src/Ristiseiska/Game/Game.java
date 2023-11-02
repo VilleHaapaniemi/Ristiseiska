@@ -104,9 +104,6 @@ public final class Game {
             return AddedCardResult.SKIP;
         }
 
-        // Remove given Card from player hand
-        currentTurnPlayer.removeCardFromHand(addedCard);
-
         if (currentTurnPlayer.getHand().isEmpty()) {
             return AddedCardResult.WIN;
         }
@@ -114,7 +111,6 @@ public final class Game {
         if (addedCard.getFaceValue().equals("A") || addedCard.getFaceValue().equals("K")) {
             return AddedCardResult.INSERTED_CUT;
         }
-
         return AddedCardResult.INSERTED;
     }
     public static Card getCardFromPreviousPlayer() {

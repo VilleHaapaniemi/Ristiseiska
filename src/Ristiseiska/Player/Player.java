@@ -9,13 +9,13 @@ import java.util.TreeSet;
 
 public abstract class Player {
     private String name;
-    private Set<Card> hand = new TreeSet<>(Card.getPlayerHandComparator());
+    protected TreeSet<Card> hand = new TreeSet<>(Card.getPlayerHandComparator());
 
     public Player(String name) {
         this.name = name;
     }
 
-    public Player(String name, Set<Card> hand) {
+    public Player(String name, TreeSet<Card> hand) {
         this.name = name;
         this.hand = hand;
     }
@@ -32,7 +32,7 @@ public abstract class Player {
         return hand;
     }
 
-    public void setHand(Set<Card> hand) {
+    public void setHand(TreeSet<Card> hand) {
         this.hand = hand;
     }
     public void addCardToHand(Card card) {
@@ -52,4 +52,5 @@ public abstract class Player {
     }
     public abstract Card giveCardToOtherPlayer();
     public abstract Card getCardFromPlayer();
+    public abstract boolean askPlayerToContinueTurn();
 }

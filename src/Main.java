@@ -37,22 +37,26 @@ public class Main {
             GameInstructions.introduceCurrentPlayer();
             GameInstructions.clearConsole();
             Table.displayTableCards();
-            GameInstructions.displayPlayerHand(Game.getCurrentTurnPlayer());
-            GameInstructions.askPlayerToAddCardInstructions();
+
             AddedCardResult addedCardResult = Game.letCurrentPlayerAddCardToTable();
             if (addedCardResult.equals(AddedCardResult.SKIP) && !Game.isIsFirstRound()) { // On first round no need to ask Card from others
                 GameInstructions.clearConsole();
                 Table.displayTableCards();
                 Card givenCard = Game.getCardFromPreviousPlayer();
+                //TODO: Not check if other player have only one card left
                 Game.getCurrentTurnPlayer().addCardToHand(givenCard);
-            }
-            if (addedCardResult.equals(AddedCardResult.INSERTED_CUT)) { // Added card is Ace or King
+
+            } else if (addedCardResult.equals(AddedCardResult.INSERTED_CUT)) { // Added card is Ace or King
                 System.out.println();
-                boolean playerContinuesTurn = GameInstructions.askPlayerToContinueTurn();
+                boolean playerContinuesTurn = Game.getCurrentTurnPlayer().askPlayerToContinueTurn();
                 // If player wants to continue turn. Continue the main while loop without ending on pass turn to next player later
                 if (playerContinuesTurn) {
                     continue;
                 }
+
+            } else if (addedCardResult.equals(AddedCardResult.WIN)) {
+                Game.setGameFinished(true);
+                break;
             }
             GameInstructions.clearConsole();
             Game.passTurnToNextPlayer();

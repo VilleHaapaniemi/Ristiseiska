@@ -10,10 +10,11 @@ import Ristiseiska.Util.GameSelections;
 public class Main {
     public static void main(String[] args) {
         GameInstructions.start();
-        //TODO: GameSelections methods ask and sets only human Players now
-        GameSelections.askPlayerCount();
+        GameSelections.askHumanPlayerCount();
         GameSelections.askPlayerNames();
-        Game.setPlayers(GameSelections.getPlayerNames()); // Set the inserted players to the Game
+        GameSelections.askAIPlayerCount();
+        Game.setHumanPlayers(GameSelections.getPlayerNames());
+        Game.setAIPlayers(GameSelections.getAIPlayerCount());
 
         // Generate new Deck of 52 Cards and shuffle it
         Deck drawingDeck = new Deck();
@@ -38,7 +39,6 @@ public class Main {
             Table.displayTableCards();
             GameInstructions.displayPlayerHand(Game.getCurrentTurnPlayer());
             GameInstructions.askPlayerToAddCardInstructions();
-
             AddedCardResult addedCardResult = Game.letCurrentPlayerAddCardToTable();
             if (addedCardResult.equals(AddedCardResult.SKIP) && !Game.isIsFirstRound()) { // On first round no need to ask Card from others
                 GameInstructions.clearConsole();
@@ -54,7 +54,6 @@ public class Main {
                     continue;
                 }
             }
-
             GameInstructions.clearConsole();
             Game.passTurnToNextPlayer();
         }

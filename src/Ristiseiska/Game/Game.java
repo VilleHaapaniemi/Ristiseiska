@@ -3,6 +3,7 @@ package Ristiseiska.Game;
 import Ristiseiska.Cards.Card;
 import Ristiseiska.Cards.Deck;
 import Ristiseiska.Cards.Suit;
+import Ristiseiska.Player.AIPlayer;
 import Ristiseiska.Player.HumanPlayer;
 import Ristiseiska.Player.Player;
 
@@ -27,9 +28,14 @@ public final class Game {
     public static void setPlayers(List<Player> playersVal) {
         players = playersVal;
     }
-    public static void setPlayers(Set<String> playerNames) {
+    public static void setHumanPlayers(Set<String> playerNames) {
         for (String name : playerNames) {
                players.add(new HumanPlayer(name));
+        }
+    }
+    public static void setAIPlayers(int AIPlayerCount) {
+        for (int i = 0; i < AIPlayerCount; i++) {
+            players.add(new AIPlayer(AIPlayer.getRandomAIPlayerName()));
         }
     }
 
